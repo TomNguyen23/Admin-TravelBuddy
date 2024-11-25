@@ -2,7 +2,7 @@ import axios from 'axios';
 import { store } from '@/redux/store';
 
 const instance = axios.create({
-    baseURL: 'localhost:8080'
+    baseURL: 'http://localhost:8080'
 });
 
 // Add a request interceptor

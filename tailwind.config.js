@@ -19,6 +19,8 @@ module.exports = {
     },
     extend: {
       colors: {
+        "pltA-green": "#91C483",
+        "pltA-yellow": "#FFE162",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
