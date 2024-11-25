@@ -25,13 +25,13 @@ const Navbar = () => {
         navigateTo('/');
     }
 
-    return ( 
+    return (
         <nav className="flex flex-wrap justify-between items-start px-12 py-7 bg-[#0284c7] h-60">
             <h1 className="uppercase font-semibold text-sm text-white">dashboard</h1>
 
             <div className="flex">
                 {/* <Input type="text" placeholder="Tìm biển số xe..." onChange={e => onSearchChange(e.target.value)} /> */}
-                
+
                 {token && (
                     <DropdownMenu>
                         <DropdownMenuTrigger className="ml-5">
@@ -43,7 +43,7 @@ const Navbar = () => {
 
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Admin</DropdownMenuLabel>
-                            
+
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={logoutHandler}>Đăng xuất</DropdownMenuItem>
                         </DropdownMenuContent>
@@ -54,5 +54,5 @@ const Navbar = () => {
         </nav>
      );
 }
- 
+
 export default Navbar;

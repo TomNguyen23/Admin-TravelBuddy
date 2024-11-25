@@ -1,12 +1,35 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
-
+import { faClipboardCheck, faClockRotateLeft, faHouse } from '@fortawesome/free-solid-svg-icons';
+import urls from '@/routes/urls';
 import { useSelector } from 'react-redux';
+
+const SideBarItem = ({token, url, icon, text}) => {
+    return (
+        <div>
+            {token && (
+                <div>
+                    <li className='md:pb-4'>
+                        <Link
+                            className={(window.location.href.indexOf(url) !== -1)
+                                ? "text-blue-500 hover:text-blue-600"
+                                : "text-gray-500 hover:text-gray-600"}
+                            to={url}>
+                            <div className="text-xs font-bold uppercase flex items-center">
+                                <FontAwesomeIcon icon={icon} size='lg' className='pr-2' style={{ width: '24px' }} />  {text}
+                            </div>
+                        </Link>
+                    </li>
+                </div>
+            )}
+        </div>
+    )
+}
 
 const SideBar = () => {
     const token = useSelector((state) => state.auth.token);
-    return ( 
+    console.log(token);
+    return (
         <div className="basis-1/6 md:p-4 bg-slate-50">
             <Link to="/">
                 <div className="indicator w-fit md:mt-6 md:pb-10">
@@ -17,28 +40,12 @@ const SideBar = () => {
 
             <ul className='md:pt-4'>
                 <li className='md:pb-5 text-[#64748B] text-xs font-bold uppercase'>Danh mục</li>
-                
-                {token && (
-                    <div>
-                        <li className='md:pb-4'>
-                            <Link
-                                className={(window.location.href.indexOf("/admin/violation-history") !== -1) 
-                                    ? "text-blue-500 hover:text-blue-600" 
-                                    : "text-gray-500 hover:text-gray-600"}
-                                to="/admin/dashboard">
-                                <div className="text-xs font-bold uppercase">
-                                <FontAwesomeIcon icon={faClockRotateLeft} size='lg' className='pr-2' />  Lịch sử vi phạm
-                                </div>
-                            </Link>
-                        </li>
-
-                    </div>
-                )}
-                
+                <SideBarItem token={token} url={urls.dashboard} icon={faHouse} text="Trang chủ" />
+                <SideBarItem token={token} url={urls.siteApprovals} icon={faClipboardCheck} text="Duyệt địa điểm mới" />
             </ul>
-            
+
         </div>
-     );
+    );
 }
- 
+
 export default SideBar;
