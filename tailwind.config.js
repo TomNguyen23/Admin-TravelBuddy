@@ -21,6 +21,9 @@ module.exports = {
       colors: {
         "pltA-green": "#91C483",
         "pltA-yellow": "#FFE162",
+        "pltB-red": "#DD4A48",
+        "pltD-green": "#139487",
+        "pltC-blue": "#CAF0F8",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
