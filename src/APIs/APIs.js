@@ -4,7 +4,7 @@ const apis = {
         "method": "GET"
     },
     "forceGetSiteVersionDetails": {
-        "urls": "/api/admin/sites?version=:versionId",
+        "urls": "/api/admin/site-approval/",
         "method": "GET"
     }
 }

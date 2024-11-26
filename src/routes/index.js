@@ -17,7 +17,7 @@ const publicRoutes = [
 const privateRoutes = [
     {path: urls.dashboard, element: Dashboard},
     {path: urls.siteApprovals, element: SiteVerification},
-    {path: urls.siteApprovalDetail, element: SiteDetail},
+    {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
 ]
 
 export { publicRoutes, privateRoutes }
