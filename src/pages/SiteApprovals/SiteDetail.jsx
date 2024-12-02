@@ -12,6 +12,7 @@ import SpanedLabel from '@/components/others/spanedLabel';
 import numeral from 'numeral';
 import urls from '@/routes/urls';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Badge } from "@/components/ui/badge"
 
 const PartHeader = ({ icon, title }) => {
     return (
@@ -149,16 +150,16 @@ const SiteDetail = () => {
                         {/* left part */}
                         <h1 className="font-bold">Kiểm duyệt bài đăng</h1>
                         <div className="flex mt-2">
-                            <text className="text-sm text-gray-700">ID phiên bản: {data.siteVersionId}</text>
-                            <text className="ml-10 text-sm text-gray-700">ID địa điểm: {data.siteId}</text>
-                            <text className="ml-10 text-sm text-gray-700">ID kiểm duyệt: {currentID}</text>
+                            <p className="text-sm text-gray-700">ID phiên bản: {data.siteVersionId}</p>
+                            <p className="ml-10 text-sm text-gray-700">ID địa điểm: {data.siteId}</p>
+                            <p className="ml-10 text-sm text-gray-700">ID kiểm duyệt: {currentID}</p>
                         </div>
                         {/* // TODO: Implement sort */}
                         {/* <p className="text-sm">Sắp xếp theo:</p> */}
                     </div>
                     <div className='px-3 py-5 text-left flex flex-row-reverse mr-0 ml-auto'>
                         {/* right part */}
-                        <Button className="mr-1 bg-pltA-yellow text-gray-900" onClick={() => {window.location.href = urls.siteApprovals;}}>
+                        <Button className="mr-1 bg-pltA-yellow text-gray-900" onClick={() => { window.location.href = urls.siteApprovals; }}>
                             <div className="text-xs font-bold uppercase flex items-center">
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} size='lg' className='pr-2' style={{ width: '24px' }} />
                             </div> Thoát
@@ -231,31 +232,33 @@ const SiteDetail = () => {
                         {/* Right part content */}
                         <div className="mb-3">
                             <PartHeader icon={faShapes} title="Danh mục và các dịch vụ" />
-                            <p className="text-base text-left ml-8 mt-1 flex"><strong className="pr-1">Loại hình: </strong>{data.siteType.name} <SiteTypeSpanedLabel value={data.siteType} /></p>
+                            <p className="text-base text-left ml-8 mt-1 flex"><strong className="pr-1">Loại hình: </strong>{data.siteType.name} <Badge className="ml-2 text-sm bg-pltD-green">{data.siteType.amenity == data.siteType.attraction ? "Chung" : (data.siteType.amenity ? "Tiện ích" : "Địa điểm du lịch")}</Badge></p>
 
                             {
                                 data.groupedServices.length > 0 ? (
-                                    <p className="text-base text-left ml-8 mt-1 flex"><strong>Các dịch vụ: </strong></p>,
-                                    data.groupedServices.map((serviceGroup) => (
-                                        <div key={serviceGroup.serviceGroup.serviceGroupName}>
-                                            <p className="mx-8 text-base flex justify-between items-center cursor-pointer" onClick={() => toggleGroup(serviceGroup.serviceGroup.serviceGroupName)}>
-                                                {serviceGroup.serviceGroup.serviceGroupName.toString()}
-                                                <FontAwesomeIcon icon={expandedGroup === serviceGroup.serviceGroup.serviceGroupName ? faChevronUp : faChevronDown} />
-                                            </p>
-                                            {expandedGroup === serviceGroup.serviceGroup.serviceGroupName && (
-                                                <div className="ml-8 mt-1">
-                                                    <ol className="list-decimal list-inside">
-                                                        {serviceGroup.services.map((service, serviceIndex) => (
-                                                            <li className="text-base text-left text-blue-700" key={serviceIndex}>{service.serviceName}</li>
-                                                        ))}
-                                                    </ol>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))
+                                    <div>
+                                        <p className="text-base text-left ml-8 mt-1 flex"><strong>Các dịch vụ: </strong></p>
+                                        <Accordion type="single" collapsible>
+                                            {data.groupedServices.map((serviceGroup, index) => (
+                                                <AccordionItem key={index} value={serviceGroup.serviceGroup.serviceGroupName}>
+                                                    <AccordionTrigger className="mx-8 text-base flex justify-between items-center cursor-pointer">
+                                                        {serviceGroup.serviceGroup.serviceGroupName.toString()}
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="ml-8 mt-1">
+                                                        <ol className="list-decimal list-inside">
+                                                            {serviceGroup.services.map((service, serviceIndex) => (
+                                                                <li className="text-base text-left text-blue-700" key={serviceIndex}>{service.serviceName}</li>
+                                                            ))}
+                                                        </ol>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            ))}
+                                        </Accordion>
+                                    </div>
                                 ) : (
                                     <p className="text-base text-left ml-8 mt-1 flex"><strong className="pr-1">Các dịch vụ: </strong> N/A</p>
-                                )}
+                                )
+                            }
                         </div>
                     </div>
                 </div>
