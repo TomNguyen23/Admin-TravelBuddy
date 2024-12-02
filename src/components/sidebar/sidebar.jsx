@@ -15,7 +15,7 @@ const SideBarItem = ({token, url, icon, text}) => {
                                 ? "text-blue-500 hover:text-blue-600"
                                 : "text-gray-500 hover:text-gray-600"}
                             to={url}>
-                            <div className="text-xs font-bold uppercase flex items-center">
+                            <div className="text-base font-bold uppercase flex items-center">
                                 <FontAwesomeIcon icon={icon} size='lg' className='pr-2' style={{ width: '24px' }} />  {text}
                             </div>
                         </Link>

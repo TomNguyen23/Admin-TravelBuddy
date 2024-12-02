@@ -1,10 +1,29 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import SpanedLabel from "../others/spanedLabel";
 import dateTimeFormat from "@/assets/js/formatter";
+import urls from "@/routes/urls";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setVals } from "@/redux/reducer/verification.reducer";
 
 const SiteApprovalRow = ({ row }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleRedirect = () => {
+        // Redux storing the selected site {id, siteVersionId}
+        dispatch(setVals({
+            approvalID: row.id,
+            siteStatus: row.siteStatus,
+            siteVersionID: row.siteVersionId
+        }));
+
+        // Redirect to the site detail page
+        navigate(`${urls.siteApprovalDetail}${row.id}`);
+    };
+
     return (
-        <TableRow className="even:bg-gray-100 odd:bg-white">
+        <TableRow className="even:bg-gray-100 odd:bg-white" onClick={handleRedirect}>
             <TableCell className="font-medium text-right">{row["id"]}</TableCell>
             <TableCell className="text-right">{row["siteVersionId"]}</TableCell>
             <TableCell className="truncate whitespace-nowrap overflow-hidden text-left">{row["siteName"]}</TableCell>
