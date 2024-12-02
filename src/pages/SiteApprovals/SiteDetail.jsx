@@ -10,6 +10,8 @@ import dateTimeFormat from '@/assets/js/formatter';
 import { dowShortEnum } from '@/assets/js/formatter';
 import SpanedLabel from '@/components/others/spanedLabel';
 import numeral from 'numeral';
+import urls from '@/routes/urls';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 const PartHeader = ({ icon, title }) => {
     return (
@@ -65,6 +67,7 @@ const SiteDetail = () => {
     const [currentID, setCurrentID] = useState(null);
     const [loading, setLoading] = useState(true);
     const [expandedGroup, setExpandedGroup] = useState(null);
+    const { toast } = useToast();
 
     const toggleGroup = (groupName) => {
         setExpandedGroup(expandedGroup === groupName ? null : groupName);
@@ -92,6 +95,38 @@ const SiteDetail = () => {
     const handleCloseOverlay = () => {
         if (document.getElementById('view-overlay') == null) return;
         document.getElementById('view-overlay').style.display = 'none';
+    }
+
+    const submitApprove = async (status) => {
+        try {
+            const response = await axiosInstance.put(`${apis.updateSiteVersionDetails.urls}`, {
+                status: status,
+                id: currentID
+            });
+            // Toast and useToast
+            if (response.status === 200) {
+                console.log(response.data);
+                toast({
+                    title: "Chấp nhận thành công",
+                    description: "Trang sẽ điều hướng sau 3 giây...",
+                })
+                setTimeout(() => {
+                    window.location.href = urls.siteApprovals;
+                }, 3000);
+                return;
+            }
+            toast({
+                variant: "error",
+                title: "Có lỗi xảy ra",
+                description: "Vui lòng thử lại sau...",
+            })
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Có lỗi xảy ra",
+                description: "Vui lòng thử lại sau...",
+            })
+        }
     }
 
     useEffect(() => {
@@ -123,17 +158,17 @@ const SiteDetail = () => {
                     </div>
                     <div className='px-3 py-5 text-left flex flex-row-reverse mr-0 ml-auto'>
                         {/* right part */}
-                        <Button className="mr-1 bg-pltA-yellow text-gray-900">
+                        <Button className="mr-1 bg-pltA-yellow text-gray-900" onClick={() => {window.location.href = urls.siteApprovals;}}>
                             <div className="text-xs font-bold uppercase flex items-center">
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} size='lg' className='pr-2' style={{ width: '24px' }} />
                             </div> Thoát
                         </Button>
-                        <Button className="mr-1 bg-pltB-red">
+                        <Button className="mr-1 bg-pltB-red" onClick={() => submitApprove("REJECTED")}>
                             <div className="text-xs font-bold uppercase flex items-center">
                                 <FontAwesomeIcon icon={faBan} size='lg' className='pr-2' style={{ width: '24px' }} />
                             </div> Từ chối
                         </Button>
-                        <Button className="mr-1 bg-pltA-green ">
+                        <Button className="mr-1 bg-pltA-green" onClick={() => submitApprove("APPROVED")}>
                             <div className="text-xs font-bold uppercase flex items-center">
                                 <FontAwesomeIcon icon={faCheck} size='lg' className='pr-2' style={{ width: '24px' }} />
                             </div>
