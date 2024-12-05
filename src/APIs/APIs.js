@@ -11,6 +11,10 @@ const apis = {
         "urls": "/api/admin/site-approval",
         "method": "PUT"
     },
+    "getAllSites": {
+        "urls": "/api/admin/site-types",
+        "method": "GET"
+    }
 }
 
 export default apis;

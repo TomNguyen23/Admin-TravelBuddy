@@ -40,7 +40,7 @@ const SiteVerification = () => {
     }, [currentPage]);
 
     return (
-        <div className="bg-white border shadow-lg rounded-md text-2xl text-center absolute right-0 top-28 left-0 h-4/5 mx-12 my-7">
+        <div className="bg-white border shadow-lg rounded-md text-2xl text-center relative right-0 top-[-8rem] left-0 h-4/5 mx-12 my-7">
             <div className="px-3 py-5 text-left">
                 <h1 className="font-bold">Danh sách bài đăng chờ duyệt</h1>
                 <p className="text-sm text-gray-700">Số lượng địa điểm chờ duyệt: {pagination.totalItems}</p>

@@ -7,6 +7,7 @@ import OTPAuth from '@/pages/auth/OTP_auth'
 import SiteVerification from '@/pages/SiteApprovals/SiteVerification'
 import urls from './urls'
 import SiteDetail from '@/pages/SiteApprovals/SiteDetail'
+import SiteTypeList from '@/pages/siteType/siteTypeList'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -18,6 +19,7 @@ const privateRoutes = [
     {path: urls.dashboard, element: Dashboard},
     {path: urls.siteApprovals, element: SiteVerification},
     {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
+    {path: urls.allSiteTypes, element: SiteTypeList},
 ]
 
 export { publicRoutes, privateRoutes }

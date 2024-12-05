@@ -8,11 +8,17 @@ const MIDDLE_PAGES = 3;
 
 const PageSelector = ({ currentPage, maxPage, setFunction }) => {
     const generatePageNumbers = () => {
-        console.log('Current page:', currentPage);
-        console.log('Max page:', maxPage);
+        // console.log('Current page:', currentPage);
+        // console.log('Max page:', maxPage);
         let isAtBegin = currentPage <= SIDE_PAGES + MIDDLE_PAGES;
         let isAtEnd = currentPage >= maxPage - SIDE_PAGES - MIDDLE_PAGES + 1;
         let pages = [];
+        if (maxPage <= SIDE_PAGES + MIDDLE_PAGES + SIDE_PAGES) {
+            for (let i = 1; i <= maxPage; i++) {
+                pages.push(i);
+            }
+            return pages;
+        }
         if (isAtBegin) {
             for (let i = 1; i <= SIDE_PAGES + MIDDLE_PAGES + 1; i++) {
                 pages.push(i);
