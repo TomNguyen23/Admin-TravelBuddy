@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import apis from '@/APIs/APIs';
 import axiosInstance from '../../services/axios/custom-axios';
 import { Button } from '@/components/ui/button';
@@ -27,8 +27,9 @@ const Header = ({ data }) => {
 				{/* // TODO: Implement sort */}
 				{/* <p className="text-sm">Sắp xếp theo:</p> */}
 			</div>
-			<div className='py-5 text-left flex flex-row-reverse mr-0 ml-auto'>
-
+			<div className='py-5 text-left flex flex-row-reverse mr-0 ml-auto gap-2'>
+				<Button className="">Hủy</Button>
+				<Button className="bg-blue-c">Lưu thay đổi</Button>
 			</div>
 		</div>
 	)
@@ -74,20 +75,45 @@ const SiteTypeDetail = ({ }) => {
 	return (
 		<div className="bg-white border shadow-lg rounded-md text-2xl text-center relative right-0 top-[-8rem] left-0 mx-12 my-7 px-5 pb-10 min-h-[75%]">
 			<Header data={data} />
-			<div className="flex h-full">
-			{/* <Label>Tên danh mục</Label>
-			<Input value={data.siteType.name} disabled /> */}
-				<div className="flex w-1/2 p-4 flex-col items-start gap-2">
-					<Label>Tên danh mục</Label>
-					<Input value={data.siteType.name} />
-				</div>
-				<div className=" flex w-1/2 p-4 flex-col items-start gap-2">
-					<Label>Mô tả danh mục</Label>
-					<div className="gap-2 flex">
-						<Button variant="primary" className={typeMode == "ATTRACTION" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("ATTRACTION")}>Địa điểm du lịch</Button>
-						<Button variant="primary" className={typeMode == "AMENITY" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("AMENITY")}>Tiện ích</Button>
-						<Button variant="primary" className={typeMode == "DUAL" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("DUAL")}>Chung</Button>
+			<div className="">
+				<div className="flex h-full">
+					{/* Basic informations */}
+					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
+						<Label>Tên danh mục</Label>
+						<Input value={data.siteType.name} />
 					</div>
+					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
+						<Label>Dạng danh mục</Label>
+						<div className="gap-2 flex">
+							<Button variant="primary" className={typeMode == "ATTRACTION" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("ATTRACTION")}>Địa điểm du lịch</Button>
+							<Button variant="primary" className={typeMode == "AMENITY" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("AMENITY")}>Tiện ích</Button>
+							<Button variant="primary" className={typeMode == "DUAL" ? "text-white bg-blue-c" : "text-white bg-gray-400"} onClick={() => setTypeMode("DUAL")}>Chung</Button>
+						</div>
+					</div>
+				</div>
+				<div>
+					{/* Associated service groups */}
+					<Accordion type="single" collapsible>
+						{data.groupedSiteServices.map((serviceGroup, index) => (
+							<div key={index}>
+								<AccordionItem value={serviceGroup.serviceGroup.serviceGroupName}>
+									<div className="flex justify-between items-center mx-8">
+										<AccordionTrigger className="text-base flex justify-between items-center cursor-pointer gap-2">
+											{serviceGroup.serviceGroup.serviceGroupName.toString()}
+										</AccordionTrigger>
+										<FontAwesomeIcon icon={faTrash} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} onClick={() => handleDelete(serviceGroup.serviceGroup.id)} />
+									</div>
+									<AccordionContent className="ml-8 mt-1">
+										<ol className="list-decimal list-inside">
+											{serviceGroup.services.map((service, serviceIndex) => (
+												<li className="text-base text-left text-blue-700" key={serviceIndex}>{service.serviceName}</li>
+											))}
+										</ol>
+									</AccordionContent>
+								</AccordionItem>
+							</div>
+						))}
+					</Accordion>
 				</div>
 			</div>
 		</div>
