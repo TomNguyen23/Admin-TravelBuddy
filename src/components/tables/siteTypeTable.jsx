@@ -6,7 +6,10 @@ import { Badge } from "../ui/badge";
 import dateTimeFormat from "@/assets/js/formatter";
 
 const SiteTypeRow = ({ row }) => {
+    const navigate = useNavigate();
+
     const handleRedirect = () => {
+        navigate(`${urls.siteTypeDetail}${row["id"]}`);
     }
 
     return (

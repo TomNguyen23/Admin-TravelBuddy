@@ -8,6 +8,7 @@ import SiteVerification from '@/pages/SiteApprovals/SiteVerification'
 import urls from './urls'
 import SiteDetail from '@/pages/SiteApprovals/SiteDetail'
 import SiteTypeList from '@/pages/siteType/siteTypeList'
+import SiteTypeDetail from '@/pages/siteType/siteTypeDetail'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -20,6 +21,7 @@ const privateRoutes = [
     {path: urls.siteApprovals, element: SiteVerification},
     {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
     {path: urls.allSiteTypes, element: SiteTypeList},
+    {path: urls.siteTypeDetail + ':id', element: SiteTypeDetail},
 ]
 
 export { publicRoutes, privateRoutes }

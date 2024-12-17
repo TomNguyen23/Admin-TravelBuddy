@@ -14,6 +14,10 @@ const apis = {
     "getAllSites": {
         "urls": "/api/admin/site-types",
         "method": "GET"
+    },
+    "getSiteTypeAndServices": {
+        "urls": "/api/site-types/:id/services",
+        "method": "GET"
     }
 }
 

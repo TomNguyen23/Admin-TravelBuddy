@@ -28,7 +28,7 @@ const SideBarItem = ({token, url, icon, text}) => {
 
 const SideBar = () => {
     const token = useSelector((state) => state.auth.token);
-    console.log(token);
+    // console.log(token);
     return (
         <div className="basis-1/6 md:p-4 bg-slate-50">
             <Link to="/">
