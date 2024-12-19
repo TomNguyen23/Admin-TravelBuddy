@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCross, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import apis from '@/APIs/APIs';
 import axiosInstance from '../../services/axios/custom-axios';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,9 @@ import urls from '@/routes/urls';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Label } from '@/components/ui/label';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandDialog } from "@/components/ui/command"
+import { use } from 'react';
+import { set } from 'date-fns';
 
 const Header = ({ data }) => {
 	return (
@@ -35,11 +38,33 @@ const Header = ({ data }) => {
 	)
 }
 
+const ServiceGroupCommand = ({ items, open, setOpen }) => {
+	const [serviceGroups, setServiceGroups] = useState([]);
+
+	return (
+		<CommandDialog open={open} onOpenChange={setOpen}>
+			<CommandInput placeholder="Tìm kiếm" />
+			<CommandList>
+				<CommandEmpty>Không có kết quả</CommandEmpty>
+				<CommandGroup heading="Suggestions">
+					{items.map((serviceGroup, index) => (
+						console.log(serviceGroup.serviceGroup),
+						<CommandItem key={index} sid={serviceGroup.serviceGroup.id} icon={faPlus}><span>{serviceGroup.serviceGroup.serviceGroupName}</span></CommandItem>
+					))}
+				</CommandGroup>
+			</CommandList>
+		</CommandDialog>
+	)
+}
+
 const SiteTypeDetail = ({ }) => {
 	const [data, setData] = useState('N/A');
 	const [loading, setLoading] = useState(true);
 	const { toast } = useToast();
 	const [typeMode, setTypeMode] = useState(null);
+	const [newServiceGroups, setNewServiceGroups] = useState([]);
+	const [serviceGroups, setServiceGroups] = useState([]);
+	const [commandOpen, setCommandOpen] = useState(false);
 
 	const fetchData = async () => {
 		try {
@@ -49,6 +74,7 @@ const SiteTypeDetail = ({ }) => {
 			setData(response.data)
 			setTypeMode(response.data.siteType.attraction == response.data.siteType.amenity ? "DUAL" : (response.data.siteType.attraction ? "ATTRACTION" : "AMENITY"))
 			setLoading(false)
+			setNewServiceGroups(response.data.groupedSiteServices)
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -60,9 +86,47 @@ const SiteTypeDetail = ({ }) => {
 		}
 	}
 
+	const fetchServiceGroups = async () => {
+		try {
+			const response = await axiosInstance.get(apis.getAllServiceGroups.urls);
+			setServiceGroups(response.data)
+		} catch (error) {
+			console.log(error);
+			toast({
+				variant: "destructive",
+				title: "Có vấn đề gì đó với server",
+				description: "Chờ chút rồi thử lại sau nhé",
+				action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+			})
+		}
+	}
+
+	const handleRemove = (id) => {
+		// Remove the service group of id from the list
+		const newServiceGroupsCopy = [...newServiceGroups]
+		const index = newServiceGroupsCopy.findIndex(serviceGroup => serviceGroup.serviceGroup.id === id)
+		newServiceGroupsCopy.splice(index, 1)
+		setNewServiceGroups(newServiceGroupsCopy)
+	}
+
+	const handleShowGroups = () => {
+		console.log("Show groups")
+		// Show the dialog to add service groups
+		setCommandOpen(true);
+	}
+
+	const handleAdd = async () => {
+		try {
+
+		} catch (error) {
+
+		}
+	}
+
 	// Initial state
 	useEffect(() => {
 		fetchData();
+		fetchServiceGroups();
 	}, [])
 
 	if (loading) {
@@ -94,26 +158,28 @@ const SiteTypeDetail = ({ }) => {
 				<div>
 					{/* Associated service groups */}
 					<Accordion type="single" collapsible>
-						{data.groupedSiteServices.map((serviceGroup, index) => (
+						{newServiceGroups.map((serviceGroup, index) => (
 							<div key={index}>
 								<AccordionItem value={serviceGroup.serviceGroup.serviceGroupName}>
 									<div className="flex justify-between items-center mx-8">
 										<AccordionTrigger className="text-base flex justify-between items-center cursor-pointer gap-2">
 											{serviceGroup.serviceGroup.serviceGroupName.toString()}
 										</AccordionTrigger>
-										<FontAwesomeIcon icon={faTrash} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} onClick={() => handleDelete(serviceGroup.serviceGroup.id)} />
+										<FontAwesomeIcon icon={faTrash} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} onClick={() => handleRemove(serviceGroup.serviceGroup.id)} />
 									</div>
 									<AccordionContent className="ml-8 mt-1">
-										<ol className="list-decimal list-inside">
+										<div className="flex flex-wrap gap-1">
 											{serviceGroup.services.map((service, serviceIndex) => (
-												<li className="text-base text-left text-blue-700" key={serviceIndex}>{service.serviceName}</li>
+												<Badge className="text-sm text-left " key={serviceIndex}>{service.serviceName}</Badge>
 											))}
-										</ol>
+										</div>
 									</AccordionContent>
 								</AccordionItem>
 							</div>
 						))}
 					</Accordion>
+					<Button className="mt-2" onClick={() => { handleShowGroups() }}><FontAwesomeIcon icon={faPlus} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} />Thêm nhóm mới</Button>
+					<ServiceGroupCommand items={newServiceGroups} open={commandOpen} setOpen={setCommandOpen} />
 				</div>
 			</div>
 		</div>

@@ -18,7 +18,11 @@ const apis = {
     "getSiteTypeAndServices": {
         "urls": "/api/site-types/:id/services",
         "method": "GET"
-    }
+    },
+    "getAllServiceGroups": {
+        "urls": "/api/admin/service-groups",
+        "method": "GET"
+    },
 }
 
 export default apis;
