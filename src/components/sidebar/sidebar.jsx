@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faClockRotateLeft, faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faClockRotateLeft, faHouse, faShapes } from '@fortawesome/free-solid-svg-icons';
 import urls from '@/routes/urls';
 import { useSelector } from 'react-redux';
 
@@ -28,7 +28,7 @@ const SideBarItem = ({token, url, icon, text}) => {
 
 const SideBar = () => {
     const token = useSelector((state) => state.auth.token);
-    console.log(token);
+    // console.log(token);
     return (
         <div className="basis-1/6 md:p-4 bg-slate-50">
             <Link to="/">
@@ -42,6 +42,7 @@ const SideBar = () => {
                 <li className='md:pb-5 text-[#64748B] text-xs font-bold uppercase'>Danh mục</li>
                 <SideBarItem token={token} url={urls.dashboard} icon={faHouse} text="Trang chủ" />
                 <SideBarItem token={token} url={urls.siteApprovals} icon={faClipboardCheck} text="Duyệt địa điểm mới" />
+                <SideBarItem token={token} url={urls.allSiteTypes} icon={faShapes} text="Danh sách danh mục" />
             </ul>
 
         </div>

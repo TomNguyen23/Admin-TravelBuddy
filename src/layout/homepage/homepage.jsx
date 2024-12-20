@@ -6,17 +6,17 @@ import { Toaster } from "@/components/ui/toaster"
 
 function HomePage( { children } ) {
 
-    return ( 
+    return (
     <div className="flex flex-wrap min-h-screen">
         <SideBar />
-        <div className="flex-1 basis-5/6 pb-7 relative">
+        <div className="flex-1  pb-7 relative">
             <Navbar />
             <div className="flex-grow">
                 {children}
                 <Toaster />
             </div>
         </div>
-    </div> 
+    </div>
     );
 }
 
