@@ -15,9 +15,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge"
 import { Label } from '@/components/ui/label';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandDialog } from "@/components/ui/command"
-import { use } from 'react';
-import { set } from 'date-fns';
-import { l } from 'vite/dist/node/types.d-aGj9QkWt';
 
 const Header = ({ data, handleSubmit }) => {
 	return (
@@ -113,7 +110,7 @@ const SiteTypeDetail = ({ }) => {
 			});
 			// Redirect to the list page after 2s
 			setTimeout(() => {
-				window.location.href = urls.siteTypeList;
+				window.location.href = urls.allSiteTypes;
 			}, 2000);
 		} catch (error) {
 			console.log(error);
@@ -163,6 +160,9 @@ const SiteTypeDetail = ({ }) => {
 	}
 
 	const putSiteType = async () => {
+		if (siteTypeName === data.siteType.name && typeMode === (data.siteType.attraction == data.siteType.amenity ? "DUAL" : (data.siteType.attraction ? "ATTRACTION" : "AMENITY"))) {
+			return;
+		}
 		const response = await axiosInstance.put(apis.putSiteType.urls.replace(':id', window.location.pathname.split("/").pop()), {
 			"siteTypeName": siteTypeName,
 			"mode": typeMode

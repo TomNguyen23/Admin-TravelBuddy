@@ -28,7 +28,7 @@ const apis = {
         "method": "PUT"
     },
     "detachServiceGroupFromType": {
-        "urls": "/api/admin/service-groups/detach-type?id=:serviceGroupId&typeId=:typeId",
+        "urls": "/api/admin/service-groups/associate-type?id=:serviceGroupId&remove=true&typeId=:typeId",
         "method": "PUT"
     },
     "putSiteType": {
