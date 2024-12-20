@@ -17,8 +17,9 @@ import { Label } from '@/components/ui/label';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandDialog } from "@/components/ui/command"
 import { use } from 'react';
 import { set } from 'date-fns';
+import { l } from 'vite/dist/node/types.d-aGj9QkWt';
 
-const Header = ({ data }) => {
+const Header = ({ data, handleSubmit }) => {
 	return (
 		<div className='flex'>
 			<div className="py-5 text-left">
@@ -32,30 +33,29 @@ const Header = ({ data }) => {
 			</div>
 			<div className='py-5 text-left flex flex-row-reverse mr-0 ml-auto gap-2'>
 				<Button className="">Hủy</Button>
-				<Button className="bg-blue-c">Lưu thay đổi</Button>
+				<Button className="bg-blue-c" onClick={handleSubmit}>Lưu thay đổi</Button>
 			</div>
 		</div>
 	)
 }
 
-const ServiceGroupCommand = ({ items, open, setOpen }) => {
-	const [serviceGroups, setServiceGroups] = useState([]);
-
+const ServiceGroupCommand = ({ items, open, setOpen, onAdd }) => {
 	return (
 		<CommandDialog open={open} onOpenChange={setOpen}>
 			<CommandInput placeholder="Tìm kiếm" />
 			<CommandList>
 				<CommandEmpty>Không có kết quả</CommandEmpty>
-				<CommandGroup heading="Suggestions">
+				<CommandGroup heading="Danh mục">
 					{items.map((serviceGroup, index) => (
-						console.log(serviceGroup.serviceGroup),
-						<CommandItem key={index} sid={serviceGroup.serviceGroup.id} icon={faPlus}><span>{serviceGroup.serviceGroup.serviceGroupName}</span></CommandItem>
+						<CommandItem key={index} onSelect={() => onAdd(serviceGroup)}>
+							<span>{serviceGroup.serviceGroup.serviceGroupName}</span>
+						</CommandItem>
 					))}
 				</CommandGroup>
 			</CommandList>
 		</CommandDialog>
-	)
-}
+	);
+};
 
 const SiteTypeDetail = ({ }) => {
 	const [data, setData] = useState('N/A');
@@ -65,6 +65,8 @@ const SiteTypeDetail = ({ }) => {
 	const [newServiceGroups, setNewServiceGroups] = useState([]);
 	const [serviceGroups, setServiceGroups] = useState([]);
 	const [commandOpen, setCommandOpen] = useState(false);
+	const [updateStatus, setUpdateStatus] = useState({ "delete": false, "insert": false, "siteType": false });
+	const [siteTypeName, setSiteTypeName] = useState("");
 
 	const fetchData = async () => {
 		try {
@@ -75,6 +77,7 @@ const SiteTypeDetail = ({ }) => {
 			setTypeMode(response.data.siteType.attraction == response.data.siteType.amenity ? "DUAL" : (response.data.siteType.attraction ? "ATTRACTION" : "AMENITY"))
 			setLoading(false)
 			setNewServiceGroups(response.data.groupedSiteServices)
+			setSiteTypeName(response.data.siteType.name)
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -101,6 +104,81 @@ const SiteTypeDetail = ({ }) => {
 		}
 	}
 
+	const submitChanges = async () => {
+		try {
+			await Promise.all([putInsert(), putDelete(), putSiteType()]);
+			toast({
+				title: "Thành công",
+				description: "Dữ liệu đã được cập nhật",
+			});
+			// Redirect to the list page after 2s
+			setTimeout(() => {
+				window.location.href = urls.siteTypeList;
+			}, 2000);
+		} catch (error) {
+			console.log(error);
+			toast({
+				variant: "destructive",
+				title: "Có vấn đề gì đó",
+				description: "Chờ chút rồi thử lại sau nhé",
+				action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+			})
+		}
+	}
+
+	const putInsert = async () => {
+		// Get the id of new service groups, which are not in the old list
+		const newServiceGroupIds = newServiceGroups.filter(serviceGroup => !data.groupedSiteServices.some(oldServiceGroup => oldServiceGroup.serviceGroup.id === serviceGroup.serviceGroup.id)).map(serviceGroup => serviceGroup.serviceGroup.id)
+		for (const serviceGroupId of newServiceGroupIds) {
+			const response = await axiosInstance.put(apis.associateServiceGroupToType.urls.replace(':serviceGroupId', serviceGroupId).replace(':typeId', window.location.pathname.split("/").pop()));
+			if (response.status == 200) {
+				setUpdateStatus({ ...updateStatus, "insert": true })
+			} else {
+				toast({
+					variant: "destructive",
+					title: "Có vấn đề gì đó",
+					description: "Chờ chút rồi thử lại sau nhé",
+					action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+				})
+			}
+		}
+	}
+
+	const putDelete = async () => {
+		// Get the id of old service groups, which are not in the new list
+		const deletedServiceGroupIds = data.groupedSiteServices.filter(serviceGroup => !newServiceGroups.some(newServiceGroup => newServiceGroup.serviceGroup.id === serviceGroup.serviceGroup.id)).map(serviceGroup => serviceGroup.serviceGroup.id)
+		for (const serviceGroupId of deletedServiceGroupIds) {
+			const response = await axiosInstance.put(apis.detachServiceGroupFromType.urls.replace(':serviceGroupId', serviceGroupId).replace(':typeId', window.location.pathname.split("/").pop()));
+			if (response.status == 200) {
+				setUpdateStatus({ ...updateStatus, "delete": true })
+			} else {
+				toast({
+					variant: "destructive",
+					title: "Có vấn đề gì đó",
+					description: "Chờ chút rồi thử lại sau nhé",
+					action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+				})
+			}
+		}
+	}
+
+	const putSiteType = async () => {
+		const response = await axiosInstance.put(apis.putSiteType.urls.replace(':id', window.location.pathname.split("/").pop()), {
+			"siteTypeName": siteTypeName,
+			"mode": typeMode
+		});
+		if (response.status == 204) {
+			setUpdateStatus({ ...updateStatus, "siteType": true })
+		} else {
+			toast({
+				variant: "destructive",
+				title: "Có vấn đề gì đó",
+				description: "Chờ chút rồi thử lại sau nhé",
+				action: <ToastAction altText="Try again">Thử lại</ToastAction>,
+			})
+		}
+	}
+
 	const handleRemove = (id) => {
 		// Remove the service group of id from the list
 		const newServiceGroupsCopy = [...newServiceGroups]
@@ -110,17 +188,16 @@ const SiteTypeDetail = ({ }) => {
 	}
 
 	const handleShowGroups = () => {
-		console.log("Show groups")
-		// Show the dialog to add service groups
 		setCommandOpen(true);
 	}
 
-	const handleAdd = async () => {
-		try {
+	const handleAddServiceGroup = (serviceGroup) => {
+		setNewServiceGroups([...newServiceGroups, serviceGroup]);
+		setCommandOpen(false);
+	};
 
-		} catch (error) {
-
-		}
+	const handleSubmit = () => {
+		submitChanges();
 	}
 
 	// Initial state
@@ -138,13 +215,13 @@ const SiteTypeDetail = ({ }) => {
 	}
 	return (
 		<div className="bg-white border shadow-lg rounded-md text-2xl text-center relative right-0 top-[-8rem] left-0 mx-12 my-7 px-5 pb-10 min-h-[75%]">
-			<Header data={data} />
+			<Header data={data} handleSubmit={handleSubmit} />
 			<div className="">
 				<div className="flex h-full">
 					{/* Basic informations */}
 					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
 						<Label>Tên danh mục</Label>
-						<Input value={data.siteType.name} />
+						<Input value={data.siteType.name}  />
 					</div>
 					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
 						<Label>Dạng danh mục</Label>
@@ -179,7 +256,7 @@ const SiteTypeDetail = ({ }) => {
 						))}
 					</Accordion>
 					<Button className="mt-2" onClick={() => { handleShowGroups() }}><FontAwesomeIcon icon={faPlus} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} />Thêm nhóm mới</Button>
-					<ServiceGroupCommand items={newServiceGroups} open={commandOpen} setOpen={setCommandOpen} />
+					<ServiceGroupCommand items={serviceGroups.filter(sg => !newServiceGroups.some(nsg => nsg.serviceGroup.id === sg.serviceGroup.id))} open={commandOpen} setOpen={setCommandOpen} onAdd={handleAddServiceGroup} />
 				</div>
 			</div>
 		</div>

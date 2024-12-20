@@ -23,6 +23,18 @@ const apis = {
         "urls": "/api/admin/service-groups",
         "method": "GET"
     },
+    "associateServiceGroupToType": {
+        "urls": "/api/admin/service-groups/associate-type?id=:serviceGroupId&typeId=:typeId",
+        "method": "PUT"
+    },
+    "detachServiceGroupFromType": {
+        "urls": "/api/admin/service-groups/detach-type?id=:serviceGroupId&typeId=:typeId",
+        "method": "PUT"
+    },
+    "putSiteType": {
+        "urls": "/api/admin/site-types/:id",
+        "method": "PUT"
+    },
 }
 
 export default apis;
