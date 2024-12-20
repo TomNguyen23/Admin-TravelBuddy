@@ -4,6 +4,7 @@ const urls = {
     "siteApprovalDetail": `/admin/verification-details/`,
     "allSiteTypes": "/admin/site-types",
     "siteTypeDetail": "/admin/site-types/",
+    "addSiteType": "/admin/site-types/add",
 }
 
 export default urls;

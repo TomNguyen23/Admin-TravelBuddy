@@ -221,7 +221,7 @@ const SiteTypeDetail = ({ }) => {
 					{/* Basic informations */}
 					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
 						<Label>Tên danh mục</Label>
-						<Input value={data.siteType.name}  />
+						<Input value={siteTypeName} onChange={(e) => {setSiteTypeName(e.target.value)}} />
 					</div>
 					<div className="flex w-1/2 p-4 flex-col items-start gap-2">
 						<Label>Dạng danh mục</Label>

@@ -7,6 +7,10 @@ import SiteTypeTable from '@/components/tables/siteTypeTable';
 import PageSelector from '@/components/pageSelector/pageSelector';
 import { set } from 'date-fns';
 import RightSearch from '@/components/search/rightSearch';
+import { Button } from '@/components/ui/button';
+import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import urls from '@/routes/urls';
 
 const SiteTypeList = () => {
 	const [data, setData] = useState([]);
@@ -55,6 +59,10 @@ const SiteTypeList = () => {
 		}
 	}, [isSubmit]);
 
+	const handleAddClick = () => {
+		window.location.href = urls.addSiteType;
+	}
+
 	return (
 		<div>
 			<div className="bg-white border shadow-lg rounded-md text-2xl text-center relative right-0 top-[-8rem] left-0 mx-12 my-7 p-2 pb-10 min-h-[75%]">
@@ -71,8 +79,10 @@ const SiteTypeList = () => {
 										<p className="text-sm text-gray-700">Tổng số: {data["pagination"]["totalItems"]}</p>
 									</div>
 								</div>
-								<div className="flex mr-0 ml-auto">
+								<div className="flex mr-0 ml-auto gap-2">
 									<RightSearch setValue={setText} setSubmit={setIsSubmit}/>
+									<Button onClick={handleAddClick} className="bg-blue-c"><FontAwesomeIcon icon={faPlus} size='lg' style={{ width: '24px' }} />
+									Thêm mới</Button>
 								</div>
 								{/* // TODO: Implement sort */}
 								{/* <p className="text-sm">Sắp xếp theo:</p> */}

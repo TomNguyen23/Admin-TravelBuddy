@@ -35,6 +35,10 @@ const apis = {
         "urls": "/api/admin/site-types/:id",
         "method": "PUT"
     },
+    "newSiteType": {
+        "urls": "/api/admin/site-types",
+        "method": "POST"
+    }
 }
 
 export default apis;
