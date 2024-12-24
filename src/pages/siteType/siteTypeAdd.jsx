@@ -59,6 +59,7 @@ const SiteTypeAdd = ({ }) => {
    const [serviceGroups, setServiceGroups] = useState([]);
    const [newServiceGroups, setNewServiceGroups] = useState([]);
    const [commandOpen, setCommandOpen] = useState(false);
+   // const [newAspects,
 
    const fetchServiceGroups = async () => {
       try {
