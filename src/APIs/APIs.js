@@ -38,7 +38,20 @@ const apis = {
     "newSiteType": {
         "urls": "/api/admin/site-types",
         "method": "POST"
-    }
+    },
+    "aspectsByType": {
+        "urls": "/api/site-types/:id/aspects",
+        "method": "GET"
+    },
+    "deleteAspects": {
+        "urls": "/api/admin/site-types/aspects",
+        "method": "DELETE"
+    },
+    "addAspects": {
+        "urls": "/api/admin/site-types/aspects",
+        "method": "POST"
+    },
+
 }
 
 export default apis;
