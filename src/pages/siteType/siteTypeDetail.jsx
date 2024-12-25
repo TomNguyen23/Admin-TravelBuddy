@@ -66,8 +66,6 @@ const AspectDialog = ({ open, setOpen, onAdd }) => {
 
 	const handleAdd = async () => {
 		await onAdd(newAspect);
-		// If the new-aspect-err doesnt have class hidden, close the dialog
-		console.log(document.getElementById('new-aspect-err').classList);
 		if (document.getElementById('new-aspect-err').classList.contains('hidden')) {
 			setOpen(false);
 		}
