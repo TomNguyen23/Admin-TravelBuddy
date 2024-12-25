@@ -2,19 +2,17 @@ import { useState, useEffect } from 'react';
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCross, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import apis from '@/APIs/APIs';
 import axiosInstance from '../../services/axios/custom-axios';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import dateTimeFormat from '@/assets/js/formatter';
-import { dowShortEnum } from '@/assets/js/formatter';
-import numeral from 'numeral';
 import urls from '@/routes/urls';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Label } from '@/components/ui/label';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandDialog } from "@/components/ui/command"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 const Header = ({ handleSubmit }) => {
    return (
@@ -51,6 +49,52 @@ const ServiceGroupCommand = ({ items, open, setOpen, onAdd }) => {
    );
 };
 
+const Separator = ({ text }) => {
+   return (
+      <div className="separator -mt-3 mb-3">
+         <div className="text-lg font-bold p-2 translate-y-6"><span className="bg-white px-3">{text}</span></div>
+         <hr />
+      </div>
+   )
+};
+
+const AspectDialog = ({ open, setOpen, onAdd }) => {
+   const [newAspect, setNewAspect] = useState("");
+
+   const handleAdd = async () => {
+      await onAdd(newAspect);
+      if (document.getElementById('new-aspect-err').classList.contains('hidden')) {
+         setOpen(false);
+      }
+   }
+
+   return (
+      <Dialog open={open} onOpenChange={setOpen}>
+         <DialogTrigger asChild>
+            <Button className="mt-2" onClick={() => setOpen(true)}><FontAwesomeIcon icon={faPlus} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} />Thêm khía cạnh</Button>
+         </DialogTrigger>
+         <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+               <DialogTitle>Khía cạnh mới</DialogTitle>
+               <DialogDescription>Nhập khía cạnh mới vào trường bên dưới.</DialogDescription>
+               <div className="!-mb-2">
+                  <span id='new-aspect-err' className="text-sm text-red-800 hidden">Khía cạnh này đã tồn tại với danh mục này</span>
+               </div>
+            </DialogHeader>
+            <div className="flex items-center space-x-2">
+               <div className="grid flex-1 gap-2">
+                  <Label htmlFor="aspectName" className="sr-only">aspectName</Label>
+                  <Input id="aspectName" value={newAspect} onChange={(e) => setNewAspect(e.target.value)} placeholder="Tên khía cạnh" maxLength={40} />
+               </div>
+            </div>
+            <DialogFooter className="sm:justify-start">
+               <Button type="submit" size="sm" className="px-3" onClick={() => { handleAdd(newAspect) }}>Thêm</Button>
+            </DialogFooter>
+         </DialogContent>
+      </Dialog>
+   );
+};
+
 const SiteTypeAdd = ({ }) => {
    const { toast } = useToast();
    const [loading, setLoading] = useState(false);
@@ -59,7 +103,8 @@ const SiteTypeAdd = ({ }) => {
    const [serviceGroups, setServiceGroups] = useState([]);
    const [newServiceGroups, setNewServiceGroups] = useState([]);
    const [commandOpen, setCommandOpen] = useState(false);
-   // const [newAspects,
+   const [aspectOpen, setAspectOpen] = useState(false);
+   const [newAspects, setNewAspects] = useState([]);
 
    const fetchServiceGroups = async () => {
       try {
@@ -97,7 +142,8 @@ const SiteTypeAdd = ({ }) => {
          const response = await axiosInstance.post(apis.newSiteType.urls, {
             siteTypeName: siteTypeName,
             mode: typeMode,
-            serviceGroups: newServiceGroups.map(serviceGroup => serviceGroup.serviceGroup.id)
+            serviceGroups: newServiceGroups.map(serviceGroup => serviceGroup.serviceGroup.id),
+            aspects: newAspects
          });
          if (response.status == 201) {
             toast({
@@ -151,6 +197,24 @@ const SiteTypeAdd = ({ }) => {
       setCommandOpen(false);
    };
 
+   const handleAddAspect = async (asp) => {
+		// Check for existed aspect in the newAspects by string comparison, trimed, and case-insensitive
+		if (newAspects.some(aspect => aspect.trim().toLowerCase() === asp.trim().toLowerCase())) {
+			document.getElementById('new-aspect-err').classList.remove('hidden');
+			return;
+		}
+		// Hide the error message if it is shown
+		document.getElementById('new-aspect-err').classList.add('hidden');
+		setNewAspects([...newAspects, asp]);
+		return;
+	}
+
+   const aspectRemove = (index) => {
+		const newAspectsCopy = [...newAspects]
+		newAspectsCopy.splice(index, 1)
+		setNewAspects(newAspectsCopy)
+	}
+
    useEffect(() => {
       fetchServiceGroups();
    }, []);
@@ -182,6 +246,7 @@ const SiteTypeAdd = ({ }) => {
                </div>
             </div>
             <div>
+               <Separator text="Nhóm dịch vụ" />
                {/* Associated service groups */}
                <Accordion type="single" collapsible>
                   {newServiceGroups.map((serviceGroup, index) => (
@@ -206,6 +271,17 @@ const SiteTypeAdd = ({ }) => {
                </Accordion>
                <Button className="mt-2" onClick={() => { handleShowGroups() }}><FontAwesomeIcon icon={faPlus} size='lg' className='pr-2 cursor-pointer' style={{ width: '1rem' }} />Thêm nhóm mới</Button>
                <ServiceGroupCommand items={serviceGroups.filter(sg => !newServiceGroups.some(nsg => nsg.serviceGroup.id === sg.serviceGroup.id))} open={commandOpen} setOpen={setCommandOpen} onAdd={handleAddServiceGroup} />
+            </div>
+            <div>
+               <Separator text="Khía cạnh" />
+               <div className="flex flex-wrap gap-1 justify-center mt-6">
+                  {
+                     newAspects.map((aspect, index) => (
+                        <Badge className="text-sm text-left " key={index}>{aspect}<FontAwesomeIcon icon={faXmark} size='lg' className='pl-2 cursor-pointer' style={{ width: '1rem' }} onClick={() => (aspectRemove(index))} /></Badge>
+                     ))
+                  }
+               </div>
+               <AspectDialog open={aspectOpen} setOpen={setAspectOpen} onAdd={handleAddAspect} />
             </div>
          </div>
       </div>
