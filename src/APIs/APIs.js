@@ -12,7 +12,7 @@ const apis = {
         "method": "PUT"
     },
     "getAllSites": {
-        "urls": "/api/admin/site-types",
+        "urls": "/api/site-types",
         "method": "GET"
     },
     "getSiteTypeAndServices": {
