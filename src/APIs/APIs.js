@@ -51,7 +51,34 @@ const apis = {
         "urls": "/api/admin/site-types/aspects",
         "method": "POST"
     },
-
+    "allSiteServiceGroups": {
+        "urls": "/api/admin/service-groups",
+        "method": "GET"
+    },
+    "siteServiceGroupDetail": {
+        "urls": "/api/admin/service-groups/:id?associate=true",
+        "method": "GET"
+    },
+    "getAllServices": {
+        "urls": "/api/admin/site-services",
+        "method": "GET"
+    },
+    "associateServiceToGroup": {
+        "urls": "/api/admin/service-groups/associate-service?id=:id&serviceId=:serviceId",
+        "method": "PUT"
+    },
+    "detachServiceFromGroup": {
+        "urls": "/api/admin/service-groups/associate-service?id=:id&serviceId=:serviceId&remove=true",
+        "method": "PUT"
+    },
+    "putServiceGroup": {
+        "urls": "/api/admin/service-groups/:id",
+        "method": "PUT"
+    },
+    "newServiceGroup": {
+        "urls": "/api/admin/service-groups",
+        "method": "POST"
+    },
 }
 
 export default apis;

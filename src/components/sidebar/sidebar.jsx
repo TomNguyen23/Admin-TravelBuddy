@@ -28,13 +28,12 @@ const SideBarItem = ({token, url, icon, text}) => {
 
 const SideBar = () => {
     const token = useSelector((state) => state.auth.token);
-    // console.log(token);
     return (
         <div className="basis-1/6 md:p-4 bg-slate-50">
             <Link to="/">
                 <div className="indicator w-fit md:mt-6 md:pb-10">
                     <span className="indicator-item text-[#475569] text-xs ">admin</span>
-                    <div className=" text-[#475569] text-xl font-bold ">Travel Buddy</div>
+                    <div className="text-[#475569] text-xl font-bold ">Travel Buddy</div>
                 </div>
             </Link>
 
@@ -43,6 +42,7 @@ const SideBar = () => {
                 <SideBarItem token={token} url={urls.dashboard} icon={faHouse} text="Trang chủ" />
                 <SideBarItem token={token} url={urls.siteApprovals} icon={faClipboardCheck} text="Duyệt địa điểm mới" />
                 <SideBarItem token={token} url={urls.allSiteTypes} icon={faShapes} text="Danh sách danh mục" />
+                <SideBarItem token={token} url={urls.allSiteServiceGroups} icon={faClockRotateLeft} text="Danh sách nhóm dịch vụ" />
             </ul>
 
         </div>
