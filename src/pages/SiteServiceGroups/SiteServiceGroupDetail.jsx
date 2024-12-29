@@ -148,7 +148,7 @@ const SiteServiceGroupDetail = () => {
 	const submitGroupServiceChanges = async () => {
 		if (groupServiceName == data.serviceGroup.serviceGroupName.trim())
 			return;
-		const response = await axiosInstance.put(apis.putServiceGroup.urls.replace(':id', data.serviceGroup.id), { serviceGroupName: groupServiceName });
+		const response = await axiosInstance.put(apis.putServiceGroup.urls.replace(':id', data.serviceGroup.id), { groupName: groupServiceName });
 		if (response.status !== 200) {
 			throw new Error("Đã có lỗi xảy ra khi cập nhật tên nhóm dịch vụ");
 		}
