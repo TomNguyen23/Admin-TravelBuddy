@@ -10,6 +10,9 @@ import SiteDetail from '@/pages/SiteApprovals/SiteDetail'
 import SiteTypeList from '@/pages/SiteType/SiteTypeList'
 import SiteTypeDetail from '@/pages/SiteType/SiteTypeDetail'
 import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
+import SiteServiceGroupList from '@/pages/SiteServiceGroups/SiteServiceGroupList'
+import SiteServiceGroupDetail from '@/pages/SiteServiceGroups/SiteServiceGroupDetail'
+import SiteServiceGroupAdd from '@/pages/SiteServiceGroups/SiteServiceGroupAdd'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -23,7 +26,10 @@ const privateRoutes = [
     {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
     {path: urls.allSiteTypes, element: SiteTypeList},
     {path: urls.siteTypeDetail + ':id', element: SiteTypeDetail},
-    {path: urls.addSiteType, element: SiteTypeAdd}
+    {path: urls.addSiteType, element: SiteTypeAdd},
+    {path: urls.allSiteServiceGroups, element: SiteServiceGroupList},
+    {path: urls.addSiteServiceGroup, element: SiteServiceGroupAdd},
+    {path: urls.siteServiceGroupDetail + ':id', element: SiteServiceGroupDetail},
 ]
 
 export { publicRoutes, privateRoutes }

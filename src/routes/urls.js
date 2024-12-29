@@ -5,6 +5,9 @@ const urls = {
     "allSiteTypes": "/admin/site-types",
     "siteTypeDetail": "/admin/site-types/",
     "addSiteType": "/admin/site-types/add",
+    "allSiteServiceGroups": "/admin/site-service-groups",
+    "siteServiceGroupDetail": "/admin/site-service-groups/",
+    "addSiteServiceGroup": "/admin/site-service-groups/add",
 }
 
 export default urls;
