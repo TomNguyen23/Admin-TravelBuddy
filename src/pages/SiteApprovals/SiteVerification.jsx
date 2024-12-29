@@ -12,6 +12,8 @@ const SiteVerification = () => {
     const [pagination, setPagination] = useState({});
     const [lastUpdate, setLastUpdate] = useState('N/A');
     const [currentPage, setCurrentPage] = useState(1);
+    const { toast } = useToast();
+
     const fetchPendings = async ({page = 1}) => {
         try {
             console.log('Requesting:', axiosInstance.defaults.baseURL + apis.getPendingApprovals.urls);

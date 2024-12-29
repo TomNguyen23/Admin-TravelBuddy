@@ -3,15 +3,16 @@ import apis from '@/APIs/APIs';
 import axiosInstance from '../../services/axios/custom-axios';
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
-import SiteTypeTable from '@/components/tables/siteTypeTable';
 import PageSelector from '@/components/pageSelector/pageSelector';
 import RightSearch from '@/components/search/rightSearch';
 import { Button } from '@/components/ui/button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import urls from '@/routes/urls';
+import SiteServiceTable from '@/components/tables/siteServiceTable';
+import ServicePopUpInput from '@/components/popupInput/servicePopUpInput';
 
-const SiteTypeList = () => {
+const SiteService = () => {
 	const [data, setData] = useState([]);
 	const [isPending, setIsPending] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -20,18 +21,25 @@ const SiteTypeList = () => {
 	const [pagination, setPagination] = useState({});
 	const [text, setText] = useState("");
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [currentSelected, setCurrentSelected] = useState(null);
+	const [open, setOpen] = useState(false);
 
 	// Fetch the data from API
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.get(apis.getAllSites.urls + `?page=${currentPage}&limit=15&q=${text}`);
+			const response = await axiosInstance.get(apis.getAllServices.urls);
 			if (!response.data) {
 				return;
 			}
-			setData(response.data);
-			setIsPending(false);
+			let filtered = response.data.data.filter((item) => {
+				return item.serviceName.toLowerCase().includes(text.toLowerCase());
+			});
 			setLastUpdate(Date.now());
-			setPagination(response.data["pagination"]);
+			setPagination({"totalItems": filtered.length, "totalPages": Math.ceil(filtered.length / 15)});
+         let start = (currentPage - 1) * 15;
+         let end = (start + 15) > response.data.data.length ? response.data.data.length : (start + 15);
+         setData(filtered.slice(start, end));
+			setIsPending(false);
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -59,8 +67,15 @@ const SiteTypeList = () => {
 	}, [isSubmit]);
 
 	const handleAddClick = () => {
-		window.location.href = urls.addSiteType;
+		setCurrentSelected(null);
+		setOpen(true);
 	}
+
+	useEffect(() => {
+		if (!open) {
+			setCurrentSelected(null)
+		};
+	}, [open]);
 
 	return (
 		<div>
@@ -73,9 +88,9 @@ const SiteTypeList = () => {
 							<div className="px-3 py-5 text-left flex items-center">
 								{/* left part */}
 								<div>
-									<h1 className="font-bold">Danh sách danh mục</h1>
+									<h1 className="font-bold">Danh sách nhóm dịch vụ</h1>
 									<div className="flex mt-2">
-										<p className="text-sm text-gray-700">Tổng số: {data["pagination"]["totalItems"]}</p>
+										<p className="text-sm text-gray-700">Tổng số: {pagination.totalItems}</p>
 									</div>
 								</div>
 								<div className="flex mr-0 ml-auto gap-2">
@@ -83,15 +98,13 @@ const SiteTypeList = () => {
 									<Button onClick={handleAddClick} className="bg-blue-c"><FontAwesomeIcon icon={faPlus} size='lg' style={{ width: '24px' }} />
 									Thêm mới</Button>
 								</div>
-								{/* // TODO: Implement sort */}
-								{/* <p className="text-sm">Sắp xếp theo:</p> */}
 							</div>
-							<SiteTypeTable data={data["data"]} lastUpdate={lastUpdate} />
+							<SiteServiceTable data={data} lastUpdate={lastUpdate} setCurrentSelected={setCurrentSelected} setDialogOpen={setOpen}/>
 							<div className="flex flex-row w-full justify-center">
 								<PageSelector currentPage={currentPage} maxPage={pagination.totalPages} setFunction={setCurrentPage} />
 							</div>
+							<ServicePopUpInput service={currentSelected} referencing={data} open={open} setOpen={setOpen} setSubmit={setIsSubmit}/>
 						</div>
-
 					)
 				}
 			</div>
@@ -99,4 +112,4 @@ const SiteTypeList = () => {
 	);
 }
 
-export default SiteTypeList;
+export default SiteService;

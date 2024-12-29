@@ -13,6 +13,7 @@ import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
 import SiteServiceGroupList from '@/pages/SiteServiceGroups/SiteServiceGroupList'
 import SiteServiceGroupDetail from '@/pages/SiteServiceGroups/SiteServiceGroupDetail'
 import SiteServiceGroupAdd from '@/pages/SiteServiceGroups/SiteServiceGroupAdd'
+import SiteService from '@/pages/SiteService/SiteService'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -30,6 +31,7 @@ const privateRoutes = [
     {path: urls.allSiteServiceGroups, element: SiteServiceGroupList},
     {path: urls.addSiteServiceGroup, element: SiteServiceGroupAdd},
     {path: urls.siteServiceGroupDetail + ':id', element: SiteServiceGroupDetail},
+    {path: urls.siteServices, element: SiteService}
 ]
 
 export { publicRoutes, privateRoutes }

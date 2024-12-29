@@ -79,6 +79,14 @@ const apis = {
         "urls": "/api/admin/service-groups",
         "method": "POST"
     },
+    "newService": {
+        "urls": "/api/admin/site-services",
+        "method": "POST"
+    },
+    "putService": {
+        "urls": "/api/admin/site-services/:id",
+        "method": "PUT"
+    },
 }
 
 export default apis;
