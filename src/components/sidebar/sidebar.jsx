@@ -44,6 +44,7 @@ const SideBar = () => {
                 <SideBarItem token={token} url={urls.allSiteTypes} icon={faShapes} text="Danh sách danh mục" />
                 <SideBarItem token={token} url={urls.allSiteServiceGroups} icon={faObjectGroup} text="Danh sách nhóm dịch vụ" />
                 <SideBarItem token={token} url={urls.siteServices} icon={faClipboardList} text="Danh sách dịch vụ" />
+                <SideBarItem token={token} url={urls.viewLogs} icon={faClockRotateLeft} text="Xem logs" />
             </ul>
         </div>
     );

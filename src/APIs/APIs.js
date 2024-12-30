@@ -87,6 +87,14 @@ const apis = {
         "urls": "/api/admin/site-services/:id",
         "method": "PUT"
     },
+    "getSystemLogs": {
+        "urls": "/api/admin/logs/sys",
+        "method": "GET"
+    },
+    "downloadLogs": {
+        "urls": "/api/admin/logs/download-logs",
+        "method": "GET"
+    }
 }
 
 export default apis;

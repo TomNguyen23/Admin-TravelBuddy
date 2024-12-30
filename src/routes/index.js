@@ -14,6 +14,7 @@ import SiteServiceGroupList from '@/pages/SiteServiceGroups/SiteServiceGroupList
 import SiteServiceGroupDetail from '@/pages/SiteServiceGroups/SiteServiceGroupDetail'
 import SiteServiceGroupAdd from '@/pages/SiteServiceGroups/SiteServiceGroupAdd'
 import SiteService from '@/pages/SiteService/SiteService'
+import Logs from '@/pages/Logs/Logs'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -31,7 +32,8 @@ const privateRoutes = [
     {path: urls.allSiteServiceGroups, element: SiteServiceGroupList},
     {path: urls.addSiteServiceGroup, element: SiteServiceGroupAdd},
     {path: urls.siteServiceGroupDetail + ':id', element: SiteServiceGroupDetail},
-    {path: urls.siteServices, element: SiteService}
+    {path: urls.siteServices, element: SiteService},
+    {path: urls.viewLogs, element: Logs}
 ]
 
 export { publicRoutes, privateRoutes }
