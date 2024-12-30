@@ -37,7 +37,6 @@ const SiteVerification = () => {
     }, []);
 
     useEffect(() => {
-        console.log('Current page before fetching:', currentPage);
         fetchPendings({page: currentPage});
     }, [currentPage]);
 
