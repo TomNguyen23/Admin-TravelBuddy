@@ -3,20 +3,20 @@ import storageSession from 'redux-persist/lib/storage/session'
 import { persistReducer, persistStore } from 'redux-persist';
 
 import authReducer from "./reducer/auth.reducer";
-import verificationReducer from "./reducer/verification.reducer";
+import permissionReducer from "./reducer/permission.reducer";
 import { apiSlice } from "@/services/rtk-query/apiSlice";
 
 
 const persistConfig = {
     key: 'root',
     storage: storageSession,  // muốn lưu vào local storage thì thay storageSession thành storage
-    whitelist: ['auth'] // muốn chỉ lưu thg nào thì bỏ vào whitelist
+    whitelist: ['auth', 'permission'] // muốn chỉ lưu thg nào thì bỏ vào whitelist
 };
 
 const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
-    siteVerification: verificationReducer,
+    permission: permissionReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
