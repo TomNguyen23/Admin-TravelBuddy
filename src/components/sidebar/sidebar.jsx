@@ -60,6 +60,7 @@ const SideBar = () => {
             <SideBarItem token={token} url={urls.allSiteServiceGroups} icon={faObjectGroup} text="Danh sách nhóm dịch vụ" permisison={["MANAGE_SITE_TYPES", "MANAGE_CATEGORIES"]} />
             <SideBarItem token={token} url={urls.siteServices} icon={faClipboardList} text="Danh sách dịch vụ" permisison={["MANAGE_SITE_TYPES", "MANAGE_CATEGORIES"]} />
             <SideBarItem token={token} url={urls.viewLogs} icon={faClockRotateLeft} text="Xem logs" permisison={["ACCESS_LOGS"]} />
+            <SideBarItem token={token} url={urls.adminList} icon={faClockRotateLeft} text="Quản trị viên" permisison={["MANAGE_ADMINS"]} />
          </ul>
       </div>
    );

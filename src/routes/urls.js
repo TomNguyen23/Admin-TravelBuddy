@@ -10,6 +10,7 @@ const urls = {
     "addSiteServiceGroup": "/admin/site-service-groups/add",
     "siteServices": "/admin/site-services",
     "viewLogs": "/admin/logs",
+    "adminList": "/admin/accounts",
 }
 
 export default urls;
