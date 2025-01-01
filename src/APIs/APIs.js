@@ -135,6 +135,26 @@ const apis = {
 		"urls": "/api/admin/admin-accounts/reset-password",
 		"method": "PUT"
 	},
+	"getSiteReport": {
+		"urls": "/api/admin/report/site?page=:page",
+		"method": "GET"
+	},
+	"getSite": {
+		"urls": "/api/admin/sites/:id",
+		"method": "GET"
+	},
+	"getSiteReportDetail": {
+		"urls": "/api/admin/report/site/:id?page=:page",
+		"method": "GET"
+	},
+	"banSite": {
+		"urls": "/api/admin/report/site/:id/ban",
+		"method": "PUT"
+	},
+	"getBannedSite": {
+		"urls": "/api/admin/report/site/banned?q=:search&page=:page",
+		"method": "GET"
+	}
 }
 
 export default apis;

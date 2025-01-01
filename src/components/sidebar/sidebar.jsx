@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardCheck, faClipboardList, faClockRotateLeft, faHouse, faObjectGroup, faShapes, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faClipboardCheck, faClipboardList, faClockRotateLeft, faFlag, faHouse, faObjectGroup, faShapes, faUsers } from '@fortawesome/free-solid-svg-icons';
 import urls from '@/routes/urls';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -61,6 +61,7 @@ const SideBar = () => {
             <SideBarItem token={token} url={urls.siteServices} icon={faClipboardList} text="Danh sách dịch vụ" permisison={["MANAGE_SITE_TYPES", "MANAGE_CATEGORIES"]} />
             <SideBarItem token={token} url={urls.viewLogs} icon={faClockRotateLeft} text="Xem logs" permisison={["ACCESS_LOGS"]} />
             <SideBarItem token={token} url={urls.adminList} icon={faUsers} text="Quản trị viên" permisison={["MANAGE_ADMINS"]} />
+            <SideBarItem token={token} url={urls.reportSites} icon={faFlag} text="Báo cáo" permisison={["MANAGE_REPORTS"]} />
          </ul>
       </div>
    );

@@ -17,6 +17,8 @@ import SiteService from '@/pages/SiteService/SiteService'
 import Logs from '@/pages/Logs/Logs'
 import AdminList from '@/pages/Account/AdminList'
 import AdminAccountDetail from '@/pages/Account/AdminAccountDetail'
+import ReportPageSite from '@/pages/Report/ReportPageSite'
+import ReportedSiteDetail from '@/pages/Report/ReportedSiteDetail'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -37,7 +39,9 @@ const privateRoutes = [
     {path: urls.siteServices, element: SiteService},
     {path: urls.viewLogs, element: Logs},
     {path: urls.adminDetail + ':id', element: AdminAccountDetail},
-    {path: urls.adminList, element: AdminList}
+    {path: urls.adminList, element: AdminList},
+    {path: urls.reportSites, element: ReportPageSite},
+    {path: urls.reportSiteDetail + ':id', element: ReportedSiteDetail},
 ]
 
 export { publicRoutes, privateRoutes }
