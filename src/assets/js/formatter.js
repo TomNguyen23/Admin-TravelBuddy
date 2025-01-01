@@ -1,8 +1,17 @@
 export default function dateTimeFormat(dateTime) {
+    // If datetime is an array like [2025, 1, 1, 10, 2, 59, 452409000] convert to string
+    if (Array.isArray(dateTime)) {
+        let rst = dateTime[0] + '-' + numberPerfixing(dateTime[1]) + '-' + numberPerfixing(dateTime[2]) + 'T' + numberPerfixing(dateTime[3]) + ':' + numberPerfixing(dateTime[4]) + ':' + numberPerfixing(dateTime[5]) + '.' + dateTime[6] + 'Z';
+        dateTime = rst;
+    }
     if (dateTime == 'N/A') return dateTime;
     let date = new Date(dateTime);
     // turn the date into a string of hh:mm dd/mm/yyyy
     return date.toLocaleTimeString() + ' ' + date.toLocaleDateString();
+}
+
+function numberPerfixing(num) {
+    return num < 10 ? '0' + num : num;
 }
 
 export function dowEnum(dow) {

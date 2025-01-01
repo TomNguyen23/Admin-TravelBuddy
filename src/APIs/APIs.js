@@ -96,9 +96,13 @@ const apis = {
 		"method": "GET"
 	},
 	"getAdminList": {
-		"urls": "/api/admin/accounts?search=:search&page=:page",
+		"urls": "/api/admin/admin-accounts?search=:search&page=:page",
 		"method": "GET"
-	}
+	},
+	"getAdminDetail": {
+		"urls": "/api/admin/admin-accounts/:id",
+		"method": "GET"
+	},
 }
 
 export default apis;
