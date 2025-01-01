@@ -8,6 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getNamePlaceHolder } from "@/assets/js/formatter";
 
 
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
     const token = useSelector(state => state.auth.token);
+    const user = useSelector(state => state.auth.user);
 
     const logoutHandler = () => {
         dispatch(logout());
@@ -36,13 +38,13 @@ const Navbar = () => {
                     <DropdownMenu>
                         <DropdownMenuTrigger className="ml-5">
                             <Avatar>
-                                <AvatarImage src="https://github.com/shadcn.png" />
-                                <AvatarFallback>CN</AvatarFallback>
+                                <AvatarImage src={user.avatar} />
+                                <AvatarFallback>{getNamePlaceHolder(user.fullName)}</AvatarFallback>
                             </Avatar>
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Admin</DropdownMenuLabel>
+                            <DropdownMenuLabel>{user.fullName}</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={logoutHandler}>Đăng xuất</DropdownMenuItem>

@@ -103,6 +103,38 @@ const apis = {
 		"urls": "/api/admin/admin-accounts/:id",
 		"method": "GET"
 	},
+	"getAllAdminGroups": {
+		"urls": "/api/admin/admin-groups",
+		"method": "GET"
+	},
+	"disableAdmin": {
+		"urls": "/api/admin/admin-accounts/disable/:id",
+		"method": "PUT"
+	},
+	"enableAdmin": {
+		"urls": "/api/admin/admin-accounts/enable/:id",
+		"method": "PUT"
+	},
+	"adminAssociateGroup": {
+		"urls": "/api/admin/admin-accounts/attach-group",
+		"method": "PUT"
+	},
+	"adminDetachGroup": {
+		"urls": "/api/admin/admin-accounts/detach-group",
+		"method": "PUT"
+	},
+	"saveImage": {
+		"urls": "/api/upload",
+		"method": "POST"
+	},
+	"updateAdmin": {
+		"urls": "/api/admin/admin-accounts",
+		"method": "PUT"
+	},
+	"resetAdminPassword": {
+		"urls": "/api/admin/admin-accounts/reset-password",
+		"method": "PUT"
+	},
 }
 
 export default apis;

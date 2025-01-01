@@ -57,3 +57,10 @@ export function dowShortEnum(dow) {
             return "N/A";
     }
 }
+
+export function getNamePlaceHolder(name) {
+    // If there is a single word, return the first 2 letters of that word
+    if (name.split(' ').length == 1) return name.substring(0, 2).toUpperCase();
+    // If there are multiple words, return the first letter of 2 word
+    return (name.split(' ')[0].charAt(0) + name.split(' ')[1].charAt(0)).toUpperCase();
+}
