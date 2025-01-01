@@ -12,6 +12,13 @@ instance.interceptors.request.use(
         const token = state.auth.token;
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
+            // Bypass CORS
+            config.headers['Access-Control-Allow-Origin'] = '*';
+            config.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+            config.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
+            // MAX AGE
+            config.headers['Access-Control-Max-Age'] = 86400;
+            config.headers['Access-Control-Allow-Credentials'] = true;
         }
         return config;
     },

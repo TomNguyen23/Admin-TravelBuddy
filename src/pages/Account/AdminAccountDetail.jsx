@@ -213,11 +213,16 @@ const AdminAccountDetail = ({ }) => {
       // Using form data to send the image
       const formData = new FormData();
       formData.append("files", profilePic);
+      if (profilePic === null) {
+         return {
+            id: "",
+            url: ""
+         }
+      }
       const response = await axiosInstance.post(apis.saveImage.urls, formData, {
          headers: {
-         'Content-Type': 'multipart/form-data',
-         'Access-Control-Allow-Origin': '*'
-         }
+            'Content-Type': 'multipart/form-data',
+         },
       });
       if (response.status === 200) {
          toast({
@@ -234,7 +239,6 @@ const AdminAccountDetail = ({ }) => {
       const newImage = await saveNewImage();
       const response = await axiosInstance.put(apis.updateAdmin.urls, {
          id: data.id,
-         fullName: fullName,
          phoneNumber: phoneNumber,
          address: address,
          avatarId: newImage.id,
@@ -296,7 +300,7 @@ const AdminAccountDetail = ({ }) => {
                   <Label>Nickname</Label>
                   <Input value={data.nickname} disabled={true} />
                   <Label>Tên đầy đủ</Label>
-                  <Input value={fullName} onChange={(e) => { setFullName(e.target.value) }} />
+                  <Input value={fullName} disabled={true}/>
                   <Label>Số điện thoại</Label>
                   <Input value={phoneNumber} onChange={(e) => { setPhoneNumber(e.target.value) }} />
                   <Label>Email</Label>
