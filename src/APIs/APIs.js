@@ -96,7 +96,63 @@ const apis = {
 		"method": "GET"
 	},
 	"getAdminList": {
-		"urls": "/api/admin/accounts?search=:search&page=:page",
+		"urls": "/api/admin/admin-accounts?search=:search&page=:page",
+		"method": "GET"
+	},
+	"getAdminDetail": {
+		"urls": "/api/admin/admin-accounts/:id",
+		"method": "GET"
+	},
+	"getAllAdminGroups": {
+		"urls": "/api/admin/admin-groups",
+		"method": "GET"
+	},
+	"disableAdmin": {
+		"urls": "/api/admin/admin-accounts/disable/:id",
+		"method": "PUT"
+	},
+	"enableAdmin": {
+		"urls": "/api/admin/admin-accounts/enable/:id",
+		"method": "PUT"
+	},
+	"adminAssociateGroup": {
+		"urls": "/api/admin/admin-accounts/attach-group",
+		"method": "PUT"
+	},
+	"adminDetachGroup": {
+		"urls": "/api/admin/admin-accounts/detach-group",
+		"method": "PUT"
+	},
+	"saveImage": {
+		"urls": "/api/upload",
+		"method": "POST"
+	},
+	"updateAdmin": {
+		"urls": "/api/admin/admin-accounts",
+		"method": "PUT"
+	},
+	"resetAdminPassword": {
+		"urls": "/api/admin/admin-accounts/reset-password",
+		"method": "PUT"
+	},
+	"getSiteReport": {
+		"urls": "/api/admin/report/site?page=:page",
+		"method": "GET"
+	},
+	"getSite": {
+		"urls": "/api/admin/sites/:id",
+		"method": "GET"
+	},
+	"getSiteReportDetail": {
+		"urls": "/api/admin/report/site/:id?page=:page",
+		"method": "GET"
+	},
+	"banSite": {
+		"urls": "/api/admin/report/site/:id/ban",
+		"method": "PUT"
+	},
+	"getBannedSite": {
+		"urls": "/api/admin/report/site/banned?q=:search&page=:page",
 		"method": "GET"
 	}
 }

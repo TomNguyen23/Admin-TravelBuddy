@@ -9,9 +9,10 @@ import { Button } from '@/components/ui/button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import urls from '@/routes/urls';
-import AdminTable from '@/components/tables/AdminTable';
+import SiteServiceGroupTable from '@/components/tables/siteServiceGroupTable';
+import SiteReportTable from '@/components/tables/SiteReportTable';
 
-const AdminList = () => {
+const ReportPageSite = () => {
 	const [data, setData] = useState([]);
 	const [isPending, setIsPending] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -24,14 +25,14 @@ const AdminList = () => {
 	// Fetch the data from API
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.get(apis.getAdminList.urls.replace(":page", currentPage).replace(":search", text));
+			const response = await axiosInstance.get(apis.getSiteReport.urls.replace(':page', currentPage));
 			if (!response.data) {
 				return;
 			}
-			setData(response.data);
-			setIsPending(false);
 			setLastUpdate(Date.now());
-			setPagination(response.data["pagination"]);
+			setPagination(response.data.pagination);
+         setData(response.data.data);
+			setIsPending(false);
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -59,7 +60,7 @@ const AdminList = () => {
 	}, [isSubmit]);
 
 	const handleAddClick = () => {
-		window.location.href = urls.addSiteType;
+		window.location.href = urls.addSiteServiceGroup;
 	}
 
 	return (
@@ -73,20 +74,18 @@ const AdminList = () => {
 							<div className="px-3 py-5 text-left flex items-center">
 								{/* left part */}
 								<div>
-									<h1 className="font-bold">Danh sách danh mục</h1>
+									<h1 className="font-bold">Danh sách báo cáo - Địa điểm</h1>
 									<div className="flex mt-2">
-										<p className="text-sm text-gray-700">Tổng số: {data["pagination"]["totalItems"]}</p>
+										<p className="text-sm text-gray-700">Tổng số: {pagination.totalItems}</p>
 									</div>
 								</div>
 								<div className="flex mr-0 ml-auto gap-2">
-									<RightSearch setValue={setText} setSubmit={setIsSubmit}/>
-									<Button onClick={handleAddClick} className="bg-blue-c"><FontAwesomeIcon icon={faPlus} size='lg' style={{ width: '24px' }} />
-									Thêm mới</Button>
+									<Button onClick={handleAddClick} className="bg-blue-c">Địa điểm</Button>
+									<Button onClick={handleAddClick} className="bg-gray-500">Người dùng</Button>
+									<Button onClick={handleAddClick} className="bg-gray-500">Bình luận</Button>
 								</div>
-								{/* // TODO: Implement sort */}
-								{/* <p className="text-sm">Sắp xếp theo:</p> */}
 							</div>
-							<AdminTable data={data["data"]} lastUpdate={lastUpdate} />
+							<SiteReportTable data={data} lastUpdate={lastUpdate} />
 							<div className="flex flex-row w-full justify-center">
 								<PageSelector currentPage={currentPage} maxPage={pagination.totalPages} setFunction={setCurrentPage} />
 							</div>
@@ -98,4 +97,4 @@ const AdminList = () => {
 	);
 }
 
-export default AdminList;
+export default ReportPageSite;

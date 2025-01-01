@@ -11,6 +11,9 @@ const urls = {
     "siteServices": "/admin/site-services",
     "viewLogs": "/admin/logs",
     "adminList": "/admin/accounts",
+    "adminDetail": "/admin/accounts/",
+    "reportSiteDetail": "/admin/report/sites/",
+    "reportSites": "/admin/report/sites",
 }
 
 export default urls;
