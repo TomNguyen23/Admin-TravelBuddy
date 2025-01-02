@@ -7,8 +7,7 @@ import OTPAuth from '@/pages/auth/OTP_auth'
 import SiteVerification from '@/pages/SiteApprovals/SiteVerification'
 import urls from './urls'
 import SiteDetail from '@/pages/SiteApprovals/SiteDetail'
-import SiteTypeList from '@/pages/SiteType/SiteTypeList'
-import SiteTypeDetail from '@/pages/SiteType/SiteTypeDetail'
+// import SiteTypeList from '@/pages/SiteType/SiteTypeList'
 import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
 import SiteServiceGroupList from '@/pages/SiteServiceGroups/SiteServiceGroupList'
 import SiteServiceGroupDetail from '@/pages/SiteServiceGroups/SiteServiceGroupDetail'
@@ -19,6 +18,7 @@ import AdminList from '@/pages/Account/AdminList'
 import AdminAccountDetail from '@/pages/Account/AdminAccountDetail'
 import ReportPageSite from '@/pages/Report/ReportPageSite'
 import ReportedSiteDetail from '@/pages/Report/ReportedSiteDetail'
+import SiteTypeList from '@/pages/SiteType/SiteTypeList'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -31,7 +31,7 @@ const privateRoutes = [
     {path: urls.siteApprovals, element: SiteVerification},
     {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
     {path: urls.allSiteTypes, element: SiteTypeList},
-    {path: urls.siteTypeDetail + ':id', element: SiteTypeDetail},
+    {path: urls.siteTypeDetail + ':id', element: SiteTypeList},
     {path: urls.addSiteType, element: SiteTypeAdd},
     {path: urls.allSiteServiceGroups, element: SiteServiceGroupList},
     {path: urls.addSiteServiceGroup, element: SiteServiceGroupAdd},
