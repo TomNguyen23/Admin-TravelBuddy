@@ -19,6 +19,7 @@ import AdminList from '@/pages/Account/AdminList'
 import AdminAccountDetail from '@/pages/Account/AdminAccountDetail'
 import ReportPageSite from '@/pages/Report/ReportPageSite'
 import ReportedSiteDetail from '@/pages/Report/ReportedSiteDetail'
+import BannedSitePage from '@/pages/Report/BannedSitePage'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -42,6 +43,7 @@ const privateRoutes = [
     {path: urls.adminList, element: AdminList},
     {path: urls.reportSites, element: ReportPageSite},
     {path: urls.reportSiteDetail + ':id', element: ReportedSiteDetail},
+    {path: urls.bannedSites, element: BannedSitePage}
 ]
 
 export { publicRoutes, privateRoutes }

@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import urls from '@/routes/urls';
-import SiteServiceGroupTable from '@/components/tables/siteServiceGroupTable';
-import SiteReportTable from '@/components/tables/SiteReportTable';
 import BannedSiteTable from '@/components/tables/BannedSiteTable';
 
 const BannedSitePage = () => {
@@ -22,11 +20,13 @@ const BannedSitePage = () => {
 	const [pagination, setPagination] = useState({});
 	const [text, setText] = useState("");
 	const [isSubmit, setIsSubmit] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	// Fetch the data from API
 	const fetchData = async () => {
 		try {
-			const response = await axiosInstance.get(apis.getSiteReport.urls.replace(':page', currentPage));
+			let url = apis.getBannedSite.urls + `?page=${currentPage}` + `&q=${text}`;
+			const response = await axiosInstance.get(url);
 			if (!response.data) {
 				return;
 			}

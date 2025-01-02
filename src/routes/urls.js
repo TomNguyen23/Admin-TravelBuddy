@@ -14,6 +14,7 @@ const urls = {
     "adminDetail": "/admin/accounts/",
     "reportSiteDetail": "/admin/report/sites/",
     "reportSites": "/admin/report/sites",
+    "bannedSites": "/admin/report/banned-sites/",
 }
 
 export default urls;

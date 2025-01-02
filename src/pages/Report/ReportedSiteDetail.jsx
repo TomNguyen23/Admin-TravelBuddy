@@ -15,6 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge"
 import SiteReportDetailedTable from '@/components/tables/SiteReportDetailedTable';
 import PageSelector from '@/components/pageSelector/pageSelector';
+import { current } from '@reduxjs/toolkit';
 
 const PartHeader = ({ icon, title }) => {
    return (
@@ -77,6 +78,7 @@ const ReportedSiteDetail = () => {
 
    const fetchInformations = async (id) => {
       try {
+         console.log(apis.getSite.urls.replace(':id', id));
          const response = await axiosInstance.get(apis.getSite.urls.replace(':id', id));
          console.log(response.data);
          setData(response.data);
@@ -144,10 +146,6 @@ const ReportedSiteDetail = () => {
          fetchReportedInsights(currentID);
       }
    }, []);
-
-   useEffect(() => {
-      fetchReportedInsights(currentID);
-   }, [currentPage]);
 
    if (loading) {
       return <div>Loading...</div>; // Render a loading indicator while data is being fetched

@@ -152,7 +152,7 @@ const apis = {
 		"method": "PUT"
 	},
 	"getBannedSite": {
-		"urls": "/api/admin/report/site/banned?q=:search&page=:page",
+		"urls": "/api/admin/report/site/banned",
 		"method": "GET"
 	}
 }

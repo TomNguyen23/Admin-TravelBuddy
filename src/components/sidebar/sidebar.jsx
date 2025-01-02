@@ -62,6 +62,7 @@ const SideBar = () => {
             <SideBarItem token={token} url={urls.viewLogs} icon={faClockRotateLeft} text="Xem logs" permisison={["ACCESS_LOGS"]} />
             <SideBarItem token={token} url={urls.adminList} icon={faUsers} text="Quản trị viên" permisison={["MANAGE_ADMINS"]} />
             <SideBarItem token={token} url={urls.reportSites} icon={faFlag} text="Báo cáo" permisison={["MANAGE_REPORTS"]} />
+            <SideBarItem token={token} url={urls.bannedSites} icon={faFlag} text="Danh sách hạn chế" permisison={["MANAGE_REPORTS"]} />
          </ul>
       </div>
    );
