@@ -16,6 +16,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import PhotoUpload from '@/components/photoUpload/photoUpload';
 import dateTimeFormat from '@/assets/js/formatter';
 import ResetPasswordPopupInput from '@/components/popupInput/resetPasswordPopUpInput';
+import { usePostMediaMutation } from '@/services/rtk-query/featureApi/mediaApiSlice';
 
 const Header = ({ data, handleSubmit, setOpen }) => {
    const { toast } = useToast();
@@ -209,30 +210,52 @@ const AdminAccountDetail = ({ }) => {
 
    }
 
+   const [postImage] = usePostMediaMutation();
    const saveNewImage = async () => {
       // Using form data to send the image
       const formData = new FormData();
-      formData.append("files", profilePic);
+      formData.append("files", [profilePic]);
+      setTimeout(() => {
+         console.log("Uploading image...");
+      }, 1000);
       if (profilePic === null) {
          return {
             id: "",
             url: ""
          }
       }
-      const response = await axiosInstance.post(apis.saveImage.urls, formData, {
-         headers: {
-            'Content-Type': 'multipart/form-data',
-         },
-      });
-      if (response.status === 200) {
-         toast({
-            title: "Thành công",
-            description: "Đã cập nhật ảnh đại diện",
-         });
-         return response.data[0];
-      } else {
-         throw new Error("Failed to save image");
-      }
+      // const response = await axiosInstance.post(apis.saveImage.urls, formData, {
+      //    headers: {
+      //       'Content-Type': 'multipart/form-data',
+      //    },
+      // });
+      // if (response.status === 200) {
+      //    toast({
+      //       title: "Thành công",
+      //       description: "Đã cập nhật ảnh đại diện",
+      //    });
+      //    return response.data[0];
+      // } else {
+      //    throw new Error("Failed to save image");
+      // }
+
+      await postImage(formData)
+            .unwrap()
+            .then((response) => {
+               toast({
+                  title: "Thành công",
+                  description: "Đã cập nhật ảnh đại diện",
+               });
+               return response[0];
+            })
+            .catch((error) => {
+               console.log(error);
+               toast({
+                  variant: "destructive",
+                  title: "Đã có lỗi xảy ra",
+                  description: "Vui lòng thử lại",
+               })
+            });
    }
 
    const saveChanges = async () => {
@@ -242,6 +265,7 @@ const AdminAccountDetail = ({ }) => {
          phoneNumber: phoneNumber,
          address: address,
          avatarId: newImage.id,
+         avatarUrl: newImage.url,
       });
       if (response.status === 200) {
          toast({

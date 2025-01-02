@@ -2,7 +2,8 @@ import axios from 'axios';
 import { store } from '@/redux/store';
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080'
+    // baseURL: 'http://localhost:8080'
+    baseURL: "https://travel-buddy-production-6a3f.up.railway.app"
 });
 
 // Add a request interceptor
