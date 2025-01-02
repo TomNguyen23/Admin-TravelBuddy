@@ -8,7 +8,7 @@ import SiteVerification from '@/pages/SiteApprovals/SiteVerification'
 import urls from './urls'
 import SiteDetail from '@/pages/SiteApprovals/SiteDetail'
 // import SiteTypeList from '@/pages/SiteType/SiteTypeList'
-import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
+// import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
 import SiteServiceGroupList from '@/pages/SiteServiceGroups/SiteServiceGroupList'
 import SiteServiceGroupDetail from '@/pages/SiteServiceGroups/SiteServiceGroupDetail'
 import SiteServiceGroupAdd from '@/pages/SiteServiceGroups/SiteServiceGroupAdd'
@@ -19,6 +19,7 @@ import AdminAccountDetail from '@/pages/Account/AdminAccountDetail'
 import ReportPageSite from '@/pages/Report/ReportPageSite'
 import ReportedSiteDetail from '@/pages/Report/ReportedSiteDetail'
 import SiteTypeList from '@/pages/SiteType/SiteTypeList'
+import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
