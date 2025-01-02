@@ -2,13 +2,37 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import urls from "@/routes/urls";
 import { useNavigate } from "react-router-dom";
 import dateTimeFormat from "@/assets/js/formatter";
-import { Button } from "react-day-picker";
+import { Button } from '@/components/ui/button';
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { useUnbanReportSiteMutation } from "@/services/rtk-query/featureApi/reportApiSlice";
 
 const BannedSiteRow = ({ row }) => {
+   const { toast } = useToast();
    const navigate = useNavigate();
 
    const handleRedirect = () => {
       navigate(`${urls.reportSiteDetail}${row.siteId}`);
+   }
+
+   const [UnbanSiteReport] = useUnbanReportSiteMutation();
+   const handleUnbanSiteReport = (siteID) => {
+      UnbanSiteReport(siteID)
+      .unwrap()
+      .then(() => {
+         toast({
+            title: "Thành công",
+            description: "Đã cập nhật ảnh đại diện",
+         });
+      })
+      .catch((error) => {
+         toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "There was a problem with your request.",
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+      })
    }
 
    return (
@@ -16,7 +40,7 @@ const BannedSiteRow = ({ row }) => {
          <TableCell className="font-medium text-right py-3">{row["siteId"]}</TableCell>
          <TableCell className="truncate whitespace-nowrap overflow-hidden text-left py-3">{row["siteName"]}</TableCell>
          <TableCell className="text-right py-3">{row["reportCount"]}</TableCell>
-         <TableCell className="text-right py-3"><Button>Hủy hạn chế</Button></TableCell>
+         <TableCell className="text-right py-3"><Button onClick={() => handleUnbanSiteReport(row.siteId)}>Hủy hạn chế</Button></TableCell>
       </TableRow>
    )
 }
