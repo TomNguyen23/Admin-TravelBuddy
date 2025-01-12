@@ -20,6 +20,7 @@ import ReportPageSite from '@/pages/Report/ReportPageSite'
 import ReportedSiteDetail from '@/pages/Report/ReportedSiteDetail'
 import SiteTypeList from '@/pages/SiteType/SiteTypeList'
 import SiteTypeAdd from '@/pages/SiteType/SiteTypeAdd'
+import SiteTypeDetail from '@/pages/siteType/siteTypeDetail'
 
 const publicRoutes = [
     {path: '/', element: Login, Layout: LoginLayout},
@@ -31,8 +32,8 @@ const privateRoutes = [
     {path: urls.dashboard, element: Dashboard},
     {path: urls.siteApprovals, element: SiteVerification},
     {path: urls.siteApprovalDetail + ':id', element: SiteDetail},
+    {path: urls.siteTypeDetail + ':id', element: SiteTypeDetail},
     {path: urls.allSiteTypes, element: SiteTypeList},
-    {path: urls.siteTypeDetail + ':id', element: SiteTypeList},
     {path: urls.addSiteType, element: SiteTypeAdd},
     {path: urls.allSiteServiceGroups, element: SiteServiceGroupList},
     {path: urls.addSiteServiceGroup, element: SiteServiceGroupAdd},

@@ -129,7 +129,8 @@ const AdminAccountDetail = ({ }) => {
          // If 404
          // TODO: Redirect to 404 page
          setData(response.data)
-         setNewGroups(response.data.groups)
+         setNewGroups(response.data.groupEntities)
+         console.log(response.data)
          setFullName(response.data.fullName)
          setPhoneNumber(response.data.phoneNumber)
          setProfilePic(response.data.avatar)
